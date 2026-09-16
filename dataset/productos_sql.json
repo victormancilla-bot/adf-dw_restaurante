@@ -1,0 +1,48 @@
+{
+	"name": "productos_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sql_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sql"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "producto_id",
+				"type": "varchar"
+			},
+			{
+				"name": "nombre_producto",
+				"type": "nvarchar"
+			},
+			{
+				"name": "categoria",
+				"type": "nvarchar"
+			},
+			{
+				"name": "precio_lista",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "costo_estimado",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "disponible",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dw_restaurante",
+			"table": "productos"
+		}
+	}
+}

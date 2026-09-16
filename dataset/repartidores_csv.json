@@ -1,0 +1,51 @@
+{
+	"name": "repartidores_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sa_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "csv"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "repartidores.csv",
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "repartidor_id",
+				"type": "String"
+			},
+			{
+				"name": "nombre_repartidor",
+				"type": "String"
+			},
+			{
+				"name": "tipo_vehiculo",
+				"type": "String"
+			},
+			{
+				"name": "ciudad_base",
+				"type": "String"
+			},
+			{
+				"name": "fecha_alta",
+				"type": "String"
+			},
+			{
+				"name": "activo",
+				"type": "String"
+			}
+		]
+	}
+}

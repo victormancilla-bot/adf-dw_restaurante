@@ -1,0 +1,51 @@
+{
+	"name": "calificaciones_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sa_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "csv"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "calificaciones.csv",
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "calificacion_id",
+				"type": "String"
+			},
+			{
+				"name": "pedido_id",
+				"type": "String"
+			},
+			{
+				"name": "cliente_id",
+				"type": "String"
+			},
+			{
+				"name": "fecha_calificacion",
+				"type": "String"
+			},
+			{
+				"name": "puntuacion",
+				"type": "String"
+			},
+			{
+				"name": "comentario",
+				"type": "String"
+			}
+		]
+	}
+}

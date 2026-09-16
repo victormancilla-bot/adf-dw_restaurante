@@ -1,0 +1,55 @@
+{
+	"name": "detalle_pedidos_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sa_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "csv"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "detalle_pedidos.csv",
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "detalle_id",
+				"type": "String"
+			},
+			{
+				"name": "pedido_id",
+				"type": "String"
+			},
+			{
+				"name": "producto_id",
+				"type": "String"
+			},
+			{
+				"name": "cantidad",
+				"type": "String"
+			},
+			{
+				"name": "precio_unitario",
+				"type": "String"
+			},
+			{
+				"name": "descuento_linea",
+				"type": "String"
+			},
+			{
+				"name": "total_linea",
+				"type": "String"
+			}
+		]
+	}
+}

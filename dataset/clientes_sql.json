@@ -1,0 +1,48 @@
+{
+	"name": "clientes_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sql_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sql"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "cliente_id",
+				"type": "varchar"
+			},
+			{
+				"name": "nombre",
+				"type": "nvarchar"
+			},
+			{
+				"name": "email",
+				"type": "nvarchar"
+			},
+			{
+				"name": "telefono",
+				"type": "varchar"
+			},
+			{
+				"name": "ciudad",
+				"type": "nvarchar"
+			},
+			{
+				"name": "fecha_registro",
+				"type": "date"
+			},
+			{
+				"name": "segmento",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dw_restaurante",
+			"table": "clientes"
+		}
+	}
+}

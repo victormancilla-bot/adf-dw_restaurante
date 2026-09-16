@@ -1,0 +1,46 @@
+{
+	"name": "promociones_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sql_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sql"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "promocion_id",
+				"type": "varchar"
+			},
+			{
+				"name": "nombre_promocion",
+				"type": "nvarchar"
+			},
+			{
+				"name": "fecha_inicio",
+				"type": "date"
+			},
+			{
+				"name": "fecha_fin",
+				"type": "date"
+			},
+			{
+				"name": "porcentaje_descuento",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 2
+			},
+			{
+				"name": "canal_aplicable",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dw_restaurante",
+			"table": "promociones"
+		}
+	}
+}

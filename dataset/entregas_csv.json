@@ -1,0 +1,59 @@
+{
+	"name": "entregas_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sa_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "csv"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "entregas.csv",
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "entrega_id",
+				"type": "String"
+			},
+			{
+				"name": "pedido_id",
+				"type": "String"
+			},
+			{
+				"name": "repartidor_id",
+				"type": "String"
+			},
+			{
+				"name": "hora_salida",
+				"type": "String"
+			},
+			{
+				"name": "hora_entrega",
+				"type": "String"
+			},
+			{
+				"name": "tiempo_entrega_min",
+				"type": "String"
+			},
+			{
+				"name": "distancia_km",
+				"type": "String"
+			},
+			{
+				"name": "estado_entrega",
+				"type": "String"
+			}
+		]
+	}
+}

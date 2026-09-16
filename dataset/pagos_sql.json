@@ -1,0 +1,46 @@
+{
+	"name": "pagos_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sql_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sql"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "pago_id",
+				"type": "varchar"
+			},
+			{
+				"name": "pedido_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_pago",
+				"type": "date"
+			},
+			{
+				"name": "metodo_pago",
+				"type": "nvarchar"
+			},
+			{
+				"name": "estado_pago",
+				"type": "nvarchar"
+			},
+			{
+				"name": "monto_pagado",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "dw_restaurante",
+			"table": "pagos"
+		}
+	}
+}

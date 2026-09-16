@@ -1,0 +1,45 @@
+{
+	"name": "calificaciones_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sql_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sql"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "calificacion_id",
+				"type": "varchar"
+			},
+			{
+				"name": "pedido_id",
+				"type": "varchar"
+			},
+			{
+				"name": "cliente_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_calificacion",
+				"type": "date"
+			},
+			{
+				"name": "puntuacion",
+				"type": "tinyint",
+				"precision": 3
+			},
+			{
+				"name": "comentario",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dw_restaurante",
+			"table": "calificaciones"
+		}
+	}
+}

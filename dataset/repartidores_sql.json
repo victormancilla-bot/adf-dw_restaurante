@@ -1,0 +1,44 @@
+{
+	"name": "repartidores_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sql_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sql"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "repartidor_id",
+				"type": "varchar"
+			},
+			{
+				"name": "nombre_repartidor",
+				"type": "nvarchar"
+			},
+			{
+				"name": "tipo_vehiculo",
+				"type": "nvarchar"
+			},
+			{
+				"name": "ciudad_base",
+				"type": "nvarchar"
+			},
+			{
+				"name": "fecha_alta",
+				"type": "date"
+			},
+			{
+				"name": "activo",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dw_restaurante",
+			"table": "repartidores"
+		}
+	}
+}

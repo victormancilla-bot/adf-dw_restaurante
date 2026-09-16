@@ -1,0 +1,61 @@
+{
+	"name": "inventario_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sql_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sql"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "inventario_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_inventario",
+				"type": "date"
+			},
+			{
+				"name": "sucursal_id",
+				"type": "varchar"
+			},
+			{
+				"name": "producto_id",
+				"type": "varchar"
+			},
+			{
+				"name": "stock_inicial",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "entradas",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "salidas",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "stock_final",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "punto_reorden",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dw_restaurante",
+			"table": "inventario"
+		}
+	}
+}

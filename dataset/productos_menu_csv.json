@@ -1,0 +1,51 @@
+{
+	"name": "productos_menu_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sa_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "csv"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "productos_menu.csv",
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "producto_id",
+				"type": "String"
+			},
+			{
+				"name": "nombre_producto",
+				"type": "String"
+			},
+			{
+				"name": "categoria",
+				"type": "String"
+			},
+			{
+				"name": "precio_lista",
+				"type": "String"
+			},
+			{
+				"name": "costo_estimado",
+				"type": "String"
+			},
+			{
+				"name": "disponible",
+				"type": "String"
+			}
+		]
+	}
+}

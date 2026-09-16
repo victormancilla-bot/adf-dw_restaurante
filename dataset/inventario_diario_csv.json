@@ -1,0 +1,63 @@
+{
+	"name": "inventario_diario_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sa_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "csv"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "inventario_diario.csv",
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "inventario_id",
+				"type": "String"
+			},
+			{
+				"name": "fecha_inventario",
+				"type": "String"
+			},
+			{
+				"name": "sucursal_id",
+				"type": "String"
+			},
+			{
+				"name": "producto_id",
+				"type": "String"
+			},
+			{
+				"name": "stock_inicial",
+				"type": "String"
+			},
+			{
+				"name": "entradas",
+				"type": "String"
+			},
+			{
+				"name": "salidas",
+				"type": "String"
+			},
+			{
+				"name": "stock_final",
+				"type": "String"
+			},
+			{
+				"name": "punto_reorden",
+				"type": "String"
+			}
+		]
+	}
+}

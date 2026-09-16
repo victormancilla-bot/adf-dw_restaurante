@@ -1,0 +1,87 @@
+{
+	"name": "pedidos_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sql_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sql"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "pedido_id",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_pedido",
+				"type": "date"
+			},
+			{
+				"name": "hora_pedido",
+				"type": "time",
+				"scale": 0
+			},
+			{
+				"name": "cliente_id",
+				"type": "varchar"
+			},
+			{
+				"name": "sucursal_id",
+				"type": "varchar"
+			},
+			{
+				"name": "canal",
+				"type": "nvarchar"
+			},
+			{
+				"name": "tipo_servicio",
+				"type": "nvarchar"
+			},
+			{
+				"name": "estado_pedido",
+				"type": "nvarchar"
+			},
+			{
+				"name": "promocion_id",
+				"type": "varchar"
+			},
+			{
+				"name": "subtotal",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "costo_delivery",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "descuento",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "impuesto",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			},
+			{
+				"name": "total_pedido",
+				"type": "decimal",
+				"precision": 12,
+				"scale": 2
+			}
+		],
+		"typeProperties": {
+			"schema": "dw_restaurante",
+			"table": "pedidos"
+		}
+	}
+}

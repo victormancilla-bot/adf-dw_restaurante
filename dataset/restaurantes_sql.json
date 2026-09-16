@@ -1,0 +1,42 @@
+{
+	"name": "restaurantes_sql",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sql_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "sql"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "restaurante_id",
+				"type": "varchar"
+			},
+			{
+				"name": "nombre_restaurante",
+				"type": "nvarchar"
+			},
+			{
+				"name": "tipo_cocina",
+				"type": "nvarchar"
+			},
+			{
+				"name": "calificacion_promedio",
+				"type": "decimal",
+				"precision": 3,
+				"scale": 2
+			},
+			{
+				"name": "activo",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dw_restaurante",
+			"table": "restaurantes"
+		}
+	}
+}

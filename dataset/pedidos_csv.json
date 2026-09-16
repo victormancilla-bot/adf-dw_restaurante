@@ -1,0 +1,83 @@
+{
+	"name": "pedidos_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "sa_restaurante",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "csv"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "pedidos.csv",
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "pedido_id",
+				"type": "String"
+			},
+			{
+				"name": "fecha_pedido",
+				"type": "String"
+			},
+			{
+				"name": "hora_pedido",
+				"type": "String"
+			},
+			{
+				"name": "cliente_id",
+				"type": "String"
+			},
+			{
+				"name": "sucursal_id",
+				"type": "String"
+			},
+			{
+				"name": "canal",
+				"type": "String"
+			},
+			{
+				"name": "tipo_servicio",
+				"type": "String"
+			},
+			{
+				"name": "estado_pedido",
+				"type": "String"
+			},
+			{
+				"name": "promocion_id",
+				"type": "String"
+			},
+			{
+				"name": "subtotal",
+				"type": "String"
+			},
+			{
+				"name": "costo_delivery",
+				"type": "String"
+			},
+			{
+				"name": "descuento",
+				"type": "String"
+			},
+			{
+				"name": "impuesto",
+				"type": "String"
+			},
+			{
+				"name": "total_pedido",
+				"type": "String"
+			}
+		]
+	}
+}
