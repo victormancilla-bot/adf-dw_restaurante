@@ -16,6 +16,12 @@
 			"transformations": [
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "split1"
+				},
+				{
+					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -30,7 +36,17 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source1",
-				"source1 derive() ~> derivedColumn1"
+				"source1 derive(comentario = iif(isNull(comentario) || trim(comentario) == '', 'Sin comentario', trim(comentario)),",
+				"          puntuacion = toInteger(iif(toInteger(puntuacion) > 5, 5, toInteger(puntuacion))),",
+				"          fecha_calificacion = toDate(fecha_calificacion, 'yyyy-MM-dd'),",
+				"          calificacion_id = trim(calificacion_id),",
+				"          pedido_id = trim(pedido_id),",
+				"          cliente_id = trim(cliente_id)) ~> derivedColumn1",
+				"derivedColumn1 split(pedido_id != 'PED999999',",
+				"     disjoint: false) ~> split1@(validos, rechazados)",
+				"split1@validos aggregate(groupBy(calificacion_id),",
+				"     columna1 = ERROR_FUNCTION(''),",
+				"          columna2 = ERROR_FUNCTION('')) ~> aggregate1"
 			]
 		}
 	}
