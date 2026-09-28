@@ -12,10 +12,21 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "pagos_sql",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "derivedColumn1"
+				},
+				{
+					"name": "split1"
 				}
 			],
 			"scriptLines": [
@@ -30,10 +41,38 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source1",
-				"source1 derive(fecha_pago = ERROR_FUNCTION(''),",
-				"          monto_pagado = ERROR_FUNCTION(''),",
-				"          metodo_pago = ERROR_FUNCTION(''),",
-				"          estado_pago = ERROR_FUNCTION('')) ~> derivedColumn1"
+				"source1 derive(fecha_pago = toDate(fecha_pago, 'yyyy-MM-dd'),",
+				"          monto_pagado = toDecimal(monto_pagado, 12, 2),",
+				"          metodo_pago = initCap(trim(metodo_pago)),",
+				"          estado_pago = initCap(trim(estado_pago))) ~> derivedColumn1",
+				"derivedColumn1 split(pedido_id != 'PED999999',",
+				"     disjoint: false) ~> split1@(validos, rechazados)",
+				"split1@validos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          pago_id as string,",
+				"          pedido_id as string,",
+				"          fecha_pago as date,",
+				"          metodo_pago as string,",
+				"          estado_pago as string,",
+				"          monto_pagado as decimal(12,2)",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          pago_id,",
+				"          pedido_id,",
+				"          fecha_pago,",
+				"          metodo_pago,",
+				"          estado_pago,",
+				"          monto_pagado",
+				"     )) ~> sink1"
 			]
 		}
 	}

@@ -3,11 +3,91 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
-			"sinks": [],
-			"transformations": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "productos_menu_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "productos_sql",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "split1"
+				},
+				{
+					"name": "aggregate1"
+				}
+			],
 			"scriptLines": [
-				""
+				"source(output(",
+				"          producto_id as string,",
+				"          nombre_producto as string,",
+				"          categoria as string,",
+				"          precio_lista as string,",
+				"          costo_estimado as string,",
+				"          disponible as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(precio_lista = abs(toDecimal(replace(toString(precio_lista), 'Bs ', ''), 12, 2)),",
+				"          costo_unitario = toDecimal(costo_estimado, 12, 2),",
+				"          categoria = iif(isNull(categoria) || trim(categoria) == '', 'Sin Categoría', initCap(trim(categoria))),",
+				"          estado_producto = iif(disponible == 'Sí', 'Disponible', 'Agotado'),",
+				"          marca = 'Propia',",
+				"          proveedor = 'Interno',",
+				"          producto_id = trim(producto_id),",
+				"          nombre_producto = trim(nombre_producto)) ~> derivedColumn1",
+				"derivedColumn1 split(!isNull(producto_id) && trim(producto_id) != '',",
+				"     disjoint: false) ~> split1@(validos, rechazados)",
+				"split1@validos aggregate(groupBy(producto_id),",
+				"     nombre_producto = first(nombre_producto),",
+				"          categoria = first(categoria),",
+				"          precio_lista = first(precio_lista),",
+				"          costo_unitario = first(costo_unitario),",
+				"          estado_producto = first(estado_producto),",
+				"          marca = first(marca),",
+				"          proveedor = first(proveedor)) ~> aggregate1",
+				"aggregate1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          producto_id as string,",
+				"          nombre_producto as string,",
+				"          categoria as string,",
+				"          precio_lista as decimal(12,2),",
+				"          costo_estimado as decimal(12,2),",
+				"          disponible as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          producto_id,",
+				"          nombre_producto,",
+				"          categoria,",
+				"          precio_lista,",
+				"          costo_estimado = costo_unitario,",
+				"          disponible = estado_producto",
+				"     )) ~> sink1"
 			]
 		}
 	}
