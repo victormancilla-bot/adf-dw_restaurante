@@ -47,7 +47,7 @@
 				"          hora_entrega = toTimestamp(hora_entrega, 'yyyy-MM-dd HH:mm:ss'),",
 				"          tiempo_entrega_min = iif(toInteger(tiempo_entrega_min) < 0, abs(toInteger(tiempo_entrega_min)), toInteger(tiempo_entrega_min)),",
 				"          distancia_km = toDecimal(distancia_km, 8, 2)) ~> derivedColumn1",
-				"derivedColumn1 split(repartidor_id != 'REP9999' && (isNull(hora_entrega) || hora_entrega >= hora_salida) && !(estado_entrega == 'Entregada' && isNull(hora_entrega)),",
+				"derivedColumn1 split(repartidor_id != 'REP9999' && !(isNull(hora_entrega) || hora_entrega >= hora_salida) && !(estado_entrega == 'Entregada' && isNull(hora_entrega)),",
 				"     disjoint: false) ~> split1@(validos, rechazados)",
 				"split1@validos sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
