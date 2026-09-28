@@ -12,7 +12,15 @@
 					"name": "source1"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "calificaciones_sql",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "derivedColumn1"
@@ -45,8 +53,37 @@
 				"derivedColumn1 split(pedido_id != 'PED999999',",
 				"     disjoint: false) ~> split1@(validos, rechazados)",
 				"split1@validos aggregate(groupBy(calificacion_id),",
-				"     columna1 = ERROR_FUNCTION(''),",
-				"          columna2 = ERROR_FUNCTION('')) ~> aggregate1"
+				"     pedido_id = first(pedido_id),",
+				"          cliente_id = first(cliente_id),",
+				"          fecha_calificacion = first(fecha_calificacion),",
+				"          puntuacion = first(puntuacion),",
+				"          comentario = first(comentario)) ~> aggregate1",
+				"aggregate1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          calificacion_id as string,",
+				"          pedido_id as string,",
+				"          cliente_id as string,",
+				"          fecha_calificacion as date,",
+				"          puntuacion as integer,",
+				"          comentario as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          calificacion_id,",
+				"          pedido_id,",
+				"          cliente_id,",
+				"          fecha_calificacion,",
+				"          puntuacion,",
+				"          comentario",
+				"     )) ~> sink1"
 			]
 		}
 	}

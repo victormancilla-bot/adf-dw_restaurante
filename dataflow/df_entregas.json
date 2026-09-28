@@ -3,11 +3,82 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
-			"sinks": [],
-			"transformations": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "entregas_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "entregas_sql",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "split1"
+				}
+			],
 			"scriptLines": [
-				""
+				"source(output(",
+				"          entrega_id as string,",
+				"          pedido_id as string,",
+				"          repartidor_id as string,",
+				"          hora_salida as string,",
+				"          hora_entrega as string,",
+				"          tiempo_entrega_min as string,",
+				"          distancia_km as string,",
+				"          estado_entrega as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(hora_salida = toTimestamp(hora_salida, 'yyyy-MM-dd HH:mm:ss'),",
+				"          hora_entrega = toTimestamp(hora_entrega, 'yyyy-MM-dd HH:mm:ss'),",
+				"          tiempo_entrega_min = iif(toInteger(tiempo_entrega_min) < 0, abs(toInteger(tiempo_entrega_min)), toInteger(tiempo_entrega_min)),",
+				"          distancia_km = toDecimal(distancia_km, 8, 2)) ~> derivedColumn1",
+				"derivedColumn1 split(repartidor_id != 'REP9999' && (isNull(hora_entrega) || hora_entrega >= hora_salida) && !(estado_entrega == 'Entregada' && isNull(hora_entrega)),",
+				"     disjoint: false) ~> split1@(validos, rechazados)",
+				"split1@validos sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          entrega_id as string,",
+				"          pedido_id as string,",
+				"          repartidor_id as string,",
+				"          hora_salida as timestamp,",
+				"          hora_entrega as timestamp,",
+				"          tiempo_entrega_min as integer,",
+				"          distancia_km as decimal(8,2),",
+				"          estado_entrega as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          entrega_id,",
+				"          pedido_id,",
+				"          repartidor_id,",
+				"          hora_salida,",
+				"          hora_entrega,",
+				"          tiempo_entrega_min,",
+				"          distancia_km,",
+				"          estado_entrega",
+				"     )) ~> sink1"
 			]
 		}
 	}
