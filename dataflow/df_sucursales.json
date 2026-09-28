@@ -3,11 +3,41 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "sucursales_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				}
+			],
 			"scriptLines": [
-				""
+				"source(output(",
+				"          sucursal_id as string,",
+				"          restaurante_id as string,",
+				"          nombre_sucursal as string,",
+				"          ciudad as string,",
+				"          zona as string,",
+				"          direccion as string,",
+				"          capacidad_mesas as string,",
+				"          tiene_delivery as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(columna1 = ERROR_FUNCTION(''),",
+				"          columna2 = ERROR_FUNCTION(''),",
+				"          columna3 = ERROR_FUNCTION(''),",
+				"          columna4 = ERROR_FUNCTION(''),",
+				"          columna5 = ERROR_FUNCTION(''),",
+				"          columna6 = ERROR_FUNCTION('')) ~> derivedColumn1"
 			]
 		}
 	}

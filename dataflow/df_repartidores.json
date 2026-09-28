@@ -3,11 +3,87 @@
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
-			"sources": [],
-			"sinks": [],
-			"transformations": [],
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "repartidores_csv",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "repartidores_sql",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "split1"
+				},
+				{
+					"name": "aggregate1"
+				}
+			],
 			"scriptLines": [
-				""
+				"source(output(",
+				"          repartidor_id as string,",
+				"          nombre_repartidor as string,",
+				"          tipo_vehiculo as string,",
+				"          ciudad_base as string,",
+				"          fecha_alta as string,",
+				"          activo as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 derive(ciudad_base = iif(isNull(ciudad_base) || trim(ciudad_base) == '', 'Desconocida', iif(trim(ciudad_base) == 'CBA', 'Cochabamba', initCap(trim(ciudad_base)))),",
+				"          fecha_alta = iif(like(fecha_alta, '%/%'), toDate(fecha_alta, 'dd/MM/yyyy'), toDate(fecha_alta, 'yyyy-MM-dd')),",
+				"          tipo_vehiculo = initCap(trim(tipo_vehiculo)),",
+				"          activo = initCap(trim(activo)),",
+				"          repartidor_id = trim(repartidor_id),",
+				"          nombre_repartidor = trim(nombre_repartidor)) ~> derivedColumn1",
+				"derivedColumn1 split(!isNull(repartidor_id) && trim(repartidor_id) != '',",
+				"     disjoint: false) ~> split1@(validos, rechazados)",
+				"split1@validos aggregate(groupBy(repartidor_id),",
+				"     nombre_repartidor = first(nombre_repartidor),",
+				"          tipo_vehiculo = first(tipo_vehiculo),",
+				"          ciudad_base = first(ciudad_base),",
+				"          fecha_alta = first(fecha_alta),",
+				"          activo = first(activo)) ~> aggregate1",
+				"aggregate1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          repartidor_id as string,",
+				"          nombre_repartidor as string,",
+				"          tipo_vehiculo as string,",
+				"          ciudad_base as string,",
+				"          fecha_alta as date,",
+				"          activo as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          repartidor_id,",
+				"          nombre_repartidor,",
+				"          tipo_vehiculo,",
+				"          ciudad_base,",
+				"          fecha_alta,",
+				"          activo",
+				"     )) ~> sink1"
 			]
 		}
 	}
